@@ -1,8 +1,8 @@
 NODE_ENV = production
 PORT = 8000
 JWT_SEED = B3n9aL1
-HOST_DB = localhost
+HOST_DB = host.docker.internal
 PORT_DB = 3306
-USERNAME_DB = bengali
-PASSWORD_DB = IqggGBfYniKzbuqSOdRV
-NAME_DB = login
+USERNAME_DB = bengali_prod
+PASSWORD_DB = pnrLocemQPpEKHwOfScD
+NAME_DB = mapi_prod

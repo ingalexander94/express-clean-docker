@@ -6,9 +6,11 @@ import { AuthRepository } from "domains/repositories/auth.repository";
 interface UserToken {
   token: string;
   user: {
-    id: string;
-    name: string;
-    email: string;
+    id_user: number;
+    user_names: string;
+    user_surnames: string;
+    user_email: string;
+    roles: { [key: string]: any }[];
   };
 }
 
@@ -26,9 +28,23 @@ export class LoginUser implements LoginUserUseCase {
 
   async execute(loginUserDTO: LoginUserDTO): Promise<UserToken> {
     const user = await this.authRepository.login(loginUserDTO);
-    const token = await this.signToken({ id: user.id }, "2h");
+    const token = await this.signToken({ id: user.id_user }, "2h");
     if (!token) throw CustomError.internalServer("Error generating token");
-    const { id, email, name } = user;
-    return { token, user: { id, email, name } };
+    const { id_user, user_email, user_names, user_surnames, roles } = user;
+    const dataRoles = roles.map(({ id_role, role_name, role_state }) => ({
+      id_role,
+      role_name,
+      role_state,
+    }));
+    return {
+      token,
+      user: {
+        id_user,
+        user_names,
+        user_surnames,
+        user_email,
+        roles: dataRoles,
+      },
+    };
   }
 }

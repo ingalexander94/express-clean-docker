@@ -1,4 +1,4 @@
-export * from "./bcrypt";
+export * from "./encryptor";
 export * from "./environments";
 export * from "./jwt";
 export * from "./validators";

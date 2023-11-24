@@ -1,14 +1,17 @@
 import { Validators } from "config";
 
 export class LoginUserDTO {
-  private constructor(public email: string, public password: string) {}
+  private constructor(
+    public user_email: string,
+    public user_password: string
+  ) {}
 
   static create(object: { [key: string]: any }): [string?, LoginUserDTO?] {
-    const { email, password } = object;
-    if (!email) return ["Missing email"];
-    if (!Validators.email.test(email)) return ["Email is not valid"];
-    if (!password) return ["missing password"];
-    if (password.length < 6) return ["Password too short"];
-    return [undefined, new LoginUserDTO(email, password)];
+    const { user_email, user_password } = object;
+    if (!user_email) return ["Missing user_email"];
+    if (!Validators.email.test(user_email)) return ["user_email is not valid"];
+    if (!user_password) return ["missing user_password"];
+    if (user_password.length < 6) return ["user_assword too short"];
+    return [undefined, new LoginUserDTO(user_email, user_password)];
   }
 }

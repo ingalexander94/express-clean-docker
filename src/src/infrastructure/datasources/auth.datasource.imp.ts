@@ -1,51 +1,44 @@
-import { BcryptAdapter } from "config";
-import { UserModel } from "data";
-import {
-  AuthDatasource,
-  CustomError,
-  LoginUserDTO,
-  RegisterUserDTO,
-  UserEntity,
-} from "domains";
-import { UserMapper } from "infrastructure/mappers/user.mapper";
+import { CryptoAdapter } from "config";
+import { UserModel, RoleModel } from "data";
+import { AuthDatasource, CustomError, LoginUserDTO, UserEntity } from "domains";
+import { RoleMapper } from "../mappers/role.mapper";
+import { UserMapper } from "../mappers/user.mapper";
 
-type HashFunction = (password: string) => string;
 type CompareFunction = (password: string, hashed: string) => boolean;
 
 export class AuthDatasourceImpl implements AuthDatasource {
   constructor(
-    private readonly hashPassword: HashFunction = BcryptAdapter.hash,
-    private readonly comparePassword: CompareFunction = BcryptAdapter.compare
+    private readonly comparePassword: CompareFunction = CryptoAdapter.compare
   ) {}
 
   async login(loginUserDTO: LoginUserDTO): Promise<UserEntity> {
     try {
-      const { email, password } = loginUserDTO;
-      const user = await UserModel.findOne({ where: { email } });
+      const { user_email, user_password } = loginUserDTO;
+      const user = await UserModel.findOne({
+        where: { user_email },
+        include: [
+          {
+            model: RoleModel,
+            as: "RoleModel",
+            where: {
+              role_state: 1,
+            },
+            required: false,
+          },
+        ],
+      });
       if (!user) throw CustomError.badRequest("User does not exists");
       const isMatching = this.comparePassword(
-        password,
-        user.dataValues.password
+        user_password,
+        user.dataValues.user_password
       );
       if (!isMatching) throw CustomError.badRequest("Password is not valid");
-      return UserMapper.userEntityFromObject(user.dataValues);
-    } catch (error) {
-      if (error instanceof CustomError) throw error;
-      else throw CustomError.internalServer();
-    }
-  }
 
-  async register(registerUserDTO: RegisterUserDTO): Promise<UserEntity> {
-    try {
-      const { name, email, password } = registerUserDTO;
-      const exist = await UserModel.findOne({ where: { email } });
-      if (exist) throw CustomError.badRequest("User already exists");
-      const user = await UserModel.create({
-        name,
-        email,
-        password: this.hashPassword(password),
-      });
-      return UserMapper.userEntityFromObject(user.dataValues);
+      const roles = user.RoleModel.map((role) =>
+        RoleMapper.roleEntityFromObject(role)
+      );
+
+      return UserMapper.userEntityFromObject({ ...user.dataValues, roles });
     } catch (error) {
       if (error instanceof CustomError) throw error;
       else throw CustomError.internalServer();

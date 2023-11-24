@@ -1,3 +1,5 @@
+// Routes -> api/v1/auth
+
 import { Router } from "express";
 import { AuthDatasourceImpl, AuthRepositoryImpl } from "infrastructure";
 import { AuthController } from "./controller";
@@ -12,7 +14,6 @@ export class AuthRoutes {
 
     const controller = new AuthController(authRepository);
 
-    router.post("/register", controller.registerUser);
     router.post("/login", controller.loginUser);
 
     return router;
