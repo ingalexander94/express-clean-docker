@@ -61,25 +61,25 @@ RoleModel.init(
 //     role_name: "SUPERADMIN",
 //     role_description:
 //       "Tiene acceso a todos los recursos y funciones dentro de MAPI.",
-//     roles_state: 1,
+//     role_state: 1,
 //   },
 //   {
 //     role_name: "ADMINISTRADOR",
 //     role_description:
 //       "Tienen la capacidad de crear, modificar y eliminar cuentas de usuario dentro de MAPI.",
-//     roles_state: 1,
+//     role_state: 1,
 //   },
 //   {
 //     role_name: "LIDER DE MANTENIMIENTO",
 //     role_description:
 //       "Es responsable de la coordinación de actividades relacionadas con el mantenimiento de equipos.",
-//     roles_state: 1,
+//     role_state: 1,
 //   },
 //   {
 //     role_name: "TÉCNICO",
 //     role_description:
 //       "Realizan tareas prácticas y aplican sus conocimientos para llevar a cabo funciones específicas.",
-//     roles_state: 1,
+//     role_state: 1,
 //   },
 // ]);
 

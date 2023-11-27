@@ -11,7 +11,7 @@ export class LoginUserDTO {
     if (!user_email) return ["Missing user_email"];
     if (!Validators.email.test(user_email)) return ["user_email is not valid"];
     if (!user_password) return ["missing user_password"];
-    if (user_password.length < 6) return ["user_assword too short"];
+    if (user_password.length < 6) return ["user_password too short"];
     return [undefined, new LoginUserDTO(user_email, user_password)];
   }
 }

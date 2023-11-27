@@ -63,6 +63,9 @@ RoleModel.belongsToMany(UserModel, {
   foreignKey: "ur_id_role",
 });
 
-// UserRolesModel.bulkCreate([{ ur_id_user: 2, ur_id_role: 2 }]);
+// UserRolesModel.bulkCreate([
+//   { ur_id_user: 1, ur_id_role: 1 },
+//   { ur_id_user: 1, ur_id_role: 2 },
+// ]);
 
 // UserRolesModel.sync({ alter: true });

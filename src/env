@@ -1,8 +1,21 @@
+# SERVER
 NODE_ENV = production
 PORT = 8000
+URL_FRONTEND = http://mapi.dev
+
+# JWT
 JWT_SEED = B3n9aL1
-HOST_DB = host.docker.internal
+
+# MARIADB
+HOST_DB = localhost
 PORT_DB = 3306
 USERNAME_DB = bengali_prod
 PASSWORD_DB = pnrLocemQPpEKHwOfScD
 NAME_DB = mapi_prod
+
+# NODEMAILER
+SMTP_HOST = smtp.gmail.com
+SMTP_PORT = 465
+SMTP_USERNAME = alexandev94@gmail.com
+SMTP_PASSWORD = ovpvtzpzwejngnjt
+SMT_SENDER = no-repy@mai.dev
