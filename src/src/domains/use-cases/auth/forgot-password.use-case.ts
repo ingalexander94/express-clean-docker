@@ -23,9 +23,9 @@ export class ForgotPassword implements ForgotPasswordUseCase {
     const emailService = MailService.getInstance();
     const isActive = await emailService.verifyConnection();
     if (!isActive) throw CustomError.internalServer("Error in email service");
-    const recoveryLink = `${envs.URL_FRONTEND}/forgot-password?token=${token}`;
+    const recoveryLink = `${envs.URL_FRONTEND}/forgot?token=${token}`;
     await emailService.sendMail({
-      from: `"MAPI <<${envs.SMT_SENDER}>>"`,
+      from: `"MAPI"`,
       to: forgotPasswordDTO.user_email,
       subject: "Recuperar contraseña de Mapi",
       html: `

@@ -16,15 +16,19 @@ export class AuthController {
 
   private handleError = (error: unknown, res: Response) => {
     if (error instanceof CustomError) {
-      return res.status(error.statusCode).json({ error: error.message });
+      return res
+        .status(error.statusCode)
+        .json({ ok: false, data: null, error: error.message });
     }
     console.error(error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res
+      .status(500)
+      .json({ ok: false, data: null, error: "Internal Server Error" });
   };
 
   loginUser = (req: Request, res: Response) => {
     const [error, loginUserDTO] = LoginUserDTO.create(req.body);
-    if (error) return res.status(400).json({ error });
+    if (error) return res.status(400).json({ ok: false, data: null, error });
 
     new LoginUser(this.authRepository)
       .execute(loginUserDTO!)
@@ -41,7 +45,7 @@ export class AuthController {
 
   forgotPassword = (req: Request, res: Response) => {
     const [error, forgotPasswordDTO] = ForgotPasswordDTO.create(req.body);
-    if (error) return res.status(400).json({ error });
+    if (error) return res.status(400).json({ ok: false, data: null, error });
     new ForgotPassword(this.authRepository)
       .execute(forgotPasswordDTO!)
       .then((ok) => res.json({ ok, error: null }))
@@ -54,7 +58,7 @@ export class AuthController {
       id_user: userToken.id_user,
       user_password,
     });
-    if (error) return res.status(400).json({ error });
+    if (error) return res.status(400).json({ ok: false, data: null, error });
     new NewPassword(this.authRepository)
       .execute(newPasswordDTO!)
       .then((ok) => res.json({ ok, error: null }))
