@@ -32,7 +32,7 @@ export class AuthController {
 
     new LoginUser(this.authRepository)
       .execute(loginUserDTO!)
-      .then((data) => res.json(data))
+      .then((data) => res.json({ ok: true, data, error: null }))
       .catch((error) => this.handleError(error, res));
   };
 
